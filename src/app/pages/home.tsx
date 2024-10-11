@@ -10,9 +10,11 @@ import {
 import { Input } from '../components/ui/input'
 import { useQrCode } from '../hooks/use-qrcode'
 import { Skeleton } from '../components/ui/skeleton'
+import { useToast } from '../hooks/use-toast'
 
 export function Home() {
   const { fetchQrCode } = useQrCode()
+  const { toast } = useToast()
   const [url, setUrl] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [qrCode, setQrCode] = useState<Blob | undefined>(undefined)
@@ -27,6 +29,11 @@ export function Home() {
       setQrCode(qrCode)
     } catch (error) {
       console.error(error)
+      toast({
+        variant: 'destructive',
+        title: 'Alguma coisa deu errado...',
+        description: 'Tente novamente mais tarde.'
+      })
     } finally {
       setIsLoading(false)
     }
